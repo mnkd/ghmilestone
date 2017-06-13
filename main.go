@@ -19,8 +19,8 @@ var (
 
 func usage() {
 	str := `Usage:
- gh-milestone [--list] [-r repo]       : Print milestone list.
- gh-milestone [-r repo] [-m milestone] : Print issues of milestone.
+ gh-milestone [--list] [-r repo]       : Print milestones for a repository
+ gh-milestone [-r repo] [-m milestone] : Print issues for a milestone.
 
 Examples:
  $ gh-milestone --list -r awesome-app
