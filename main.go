@@ -17,18 +17,31 @@ var (
 	Revision string
 )
 
+func usage() {
+	str := `Usage:
+ gh-milestone [--list] [-r repo]       : Print milestone list.
+ gh-milestone [-r repo] [-m milestone] : Print issues of milestone.
+
+Examples:
+ $ gh-milestone --list -r awesome-app
+ $ gh-milestone -r awesome-app -m 15
+`
+	fmt.Fprintln(os.Stderr, str)
+}
+
 var app App
 
 func init() {
 	var configPath string
 	var milestone string
 	var repo string
-	var version bool
+	var list, version bool
 
 	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/prnotify/config.json)")
 	flag.StringVar(&milestone, "m", "", "milestone number")
 	flag.StringVar(&repo, "r", "", "repo")
 	flag.BoolVar(&version, "v", false, "Print version.")
+	flag.BoolVar(&list, "list", false, "Print milestone list.")
 	flag.Parse()
 
 	if version {
@@ -37,7 +50,13 @@ func init() {
 		os.Exit(ExitCodeOK)
 	}
 
-	if len(milestone) == 0 || len(repo) == 0 {
+	if len(repo) == 0 {
+		usage()
+		os.Exit(ExitCodeOK)
+	}
+
+	if list == false && len(milestone) == 0 {
+		usage()
 		os.Exit(ExitCodeOK)
 	}
 
@@ -48,7 +67,7 @@ func init() {
 	}
 
 	// Prepare app
-	app, err = NewApp(config, repo, milestone)
+	app, err = NewApp(config, list, repo, milestone)
 	if err != nil {
 		os.Exit(ExitCodeError)
 	}
