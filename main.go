@@ -37,7 +37,7 @@ func init() {
 	var repo string
 	var list, version bool
 
-	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/prnotify/config.json)")
+	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/gh-milestone/config.json)")
 	flag.StringVar(&milestone, "m", "", "milestone number")
 	flag.StringVar(&repo, "r", "", "repo")
 	flag.BoolVar(&version, "v", false, "Print version.")
