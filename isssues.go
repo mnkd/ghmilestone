@@ -14,37 +14,11 @@ type Issue struct {
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"assignee"`
-	Body string `json:"body"`
-	// ClosedAt    string        `json:"closed_at"`
-	// Comments    int64         `json:"comments"`
-	// CreatedAt   string        `json:"created_at"`
-	ID int64 `json:"id"`
-	// Labels      []interface{} `json:"labels"`
-	// Locked      bool          `json:"locked"`
-	// Milestone   struct {
-	// 	ClosedAt     interface{} `json:"closed_at"`
-	// 	ClosedIssues int64       `json:"closed_issues"`
-	// 	CreatedAt    string      `json:"created_at"`
-	// 	Creator      struct {
-	// 		ID                int64  `json:"id"`
-	// 		Login             string `json:"login"`
-	// 		URL               string `json:"url"`
-	// 	} `json:"creator"`
-	// 	Description string `json:"description"`
-	// 	DueOn       string `json:"due_on"`
-	// 	ID          int64  `json:"id"`
-	// 	Number      int64  `json:"number"`
-	// 	OpenIssues  int64  `json:"open_issues"`
-	// 	State       string `json:"state"`
-	// 	Title       string `json:"title"`
-	// 	UpdatedAt   string `json:"updated_at"`
-	// 	URL         string `json:"url"`
-	// } `json:"milestone"`
-	Number int64 `json:"number"`
-	// RepositoryURL string `json:"repository_url"`
-	State string `json:"state"`
-	Title string `json:"title"`
-	// UpdatedAt     string `json:"updated_at"`
+	Body    string `json:"body"`
+	ID      int64  `json:"id"`
+	Number  int64  `json:"number"`
+	State   string `json:"state"`
+	Title   string `json:"title"`
 	HTMLURL string `json:"html_url"`
 	User    struct {
 		ID    int64  `json:"id"`
