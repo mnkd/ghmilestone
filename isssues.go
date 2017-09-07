@@ -25,6 +25,9 @@ type Issue struct {
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
+	PullRequest struct {
+		URL string `json:"url"`
+	} `json:"pull_request"`
 }
 
 func (gh GitHubAPI) GetMilestoneIssues(repo string, milestone string) ([]Issue, error) {

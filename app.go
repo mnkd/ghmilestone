@@ -34,7 +34,24 @@ func (app App) printIssues() int {
 		return ExitCodeError
 	}
 
+	var issueItems []Issue
+	var pullItems []Issue
+
 	for _, issue := range issues {
+		if len(issue.PullRequest.URL) == 0 {
+			issueItems = append(issueItems, issue)
+		} else {
+			pullItems = append(pullItems, issue)
+		}
+	}
+
+	fmt.Fprintf(os.Stdout, "***** ISSUE *****\n")
+	for _, issue := range issueItems {
+		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
+	}
+
+	fmt.Fprintf(os.Stdout, "\n***** PULL REQUEST *****\n")
+	for _, issue := range pullItems {
 		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
 	}
 
