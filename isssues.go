@@ -31,7 +31,7 @@ func (gh GitHubAPI) GetMilestoneIssues(repo string, milestone string) ([]Issue, 
 	var issues []Issue
 
 	// Prepare HTTP Request
-	url := "https://api.github.com/repos/" + gh.Owner + "/" + repo + "/issues" + "?access_token=" + gh.AccessToken + "&milestone=" + milestone + "&state=all"
+	url := gh.BaseURL() + "/" + repo + "/issues" + "?access_token=" + gh.AccessToken + "&milestone=" + milestone + "&state=all"
 
 	req, err := http.NewRequest("GET", url, nil)
 

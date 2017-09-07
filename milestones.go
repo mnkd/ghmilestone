@@ -20,7 +20,7 @@ func (gh GitHubAPI) GetMilestones(repo string) ([]Milestone, error) {
 	var milestones []Milestone
 
 	// Prepare HTTP Request
-	url := "https://api.github.com/repos/" + gh.Owner + "/" + repo + "/milestones" + "?access_token=" + gh.AccessToken + "&state=open"
+	url := gh.BaseURL() + "/" + repo + "/milestones" + "?access_token=" + gh.AccessToken + "&state=open"
 
 	req, err := http.NewRequest("GET", url, nil)
 
