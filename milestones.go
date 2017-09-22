@@ -22,8 +22,7 @@ func (gh GitHubAPI) GetMilestones(repo string) ([]Milestone, error) {
 	// Prepare HTTP Request
 	url := gh.BaseURL() + "/" + repo + "/milestones" + "?access_token=" + gh.AccessToken + "&state=open"
 
-	req, err := http.NewRequest("GET", url, nil)
-
+	req, _ := http.NewRequest("GET", url, nil)
 	parseFormErr := req.ParseForm()
 	if parseFormErr != nil {
 		fmt.Fprintln(os.Stderr, "GitHubAPI - Milestones: <error> parse http request form:", parseFormErr)

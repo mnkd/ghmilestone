@@ -44,10 +44,10 @@ func NewConfig(path string) (Config, error) {
 	if len(path) == 0 {
 		path = filepath.Join(usr.HomeDir, "/.config/gh-milestone/config.json")
 	} else {
-		p, err := filepath.Abs(path)
-		if err != nil {
-			fmt.Fprintln(os.Stderr, "Config: <error> get absolute representation of path:", err, path)
-			return config, err
+		p, absErr := filepath.Abs(path)
+		if absErr != nil {
+			fmt.Fprintln(os.Stderr, "Config: <error> get absolute representation of path:", absErr, path)
+			return config, absErr
 		}
 		path = p
 	}
@@ -58,7 +58,7 @@ func NewConfig(path string) (Config, error) {
 		return config, err
 	}
 
-	if err := json.Unmarshal(str, &config); err != nil {
+	if err = json.Unmarshal(str, &config); err != nil {
 		fmt.Fprintln(os.Stderr, "Config: <error> json unmarshal: config.json:", err)
 		return config, err
 	}
