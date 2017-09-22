@@ -27,33 +27,56 @@ func (app App) printMilestones() int {
 	return ExitCodeOK
 }
 
-func (app App) printIssues() int {
+func filterIssues(issues []Issue, state string) []Issue {
+	var filterd []Issue
+	for _, issue := range issues {
+		if issue.State == state {
+			filterd = append(filterd, issue)
+		}
+	}
+	return filterd
+}
+
+func (app App) printIssues(issues []Issue, title string) {
+	fmt.Fprintf(os.Stdout, "# %v\n", title)
+	openIssues := filterIssues(issues, "open")
+	closedIssues := filterIssues(issues, "closed")
+
+	fmt.Fprintf(os.Stdout, "## OPEN (%v)\n", len(openIssues))
+	for _, issue := range openIssues {
+		fmt.Fprintf(os.Stdout, "* [%v - %v](%v) (%v)\n", issue.Number, issue.Title, issue.HTMLURL, issue.Assignee.Login)
+	}
+
+	fmt.Fprintf(os.Stdout, "## CLOSED (%v)\n", len(closedIssues))
+	for _, issue := range closedIssues {
+		fmt.Fprintf(os.Stdout, "* [%v - %v](%v) (%v)\n", issue.Number, issue.Title, issue.HTMLURL, issue.Assignee.Login)
+	}
+}
+
+func (app App) printMilestoneIssues() int {
+	// Get milestone issues from GitHub
 	var issues []Issue
 	issues, err := app.GitHubAPI.GetMilestoneIssues(app.Repo, app.Milestone)
 	if err != nil {
 		return ExitCodeError
 	}
 
+	// Divide issues
 	var issueItems []Issue
 	var pullItems []Issue
 
 	for _, issue := range issues {
-		if len(issue.PullRequest.URL) == 0 {
-			issueItems = append(issueItems, issue)
-		} else {
+		if len(issue.PullRequest.URL) > 0 {
 			pullItems = append(pullItems, issue)
+		} else {
+			issueItems = append(issueItems, issue)
 		}
 	}
 
-	fmt.Fprintf(os.Stdout, "***** ISSUE *****\n")
-	for _, issue := range issueItems {
-		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
-	}
-
-	fmt.Fprintf(os.Stdout, "\n***** PULL REQUEST *****\n")
-	for _, issue := range pullItems {
-		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
-	}
+	// Print issues and pull requests
+	app.printIssues(issueItems, "ISSUE")
+	fmt.Fprintln(os.Stdout, "")
+	app.printIssues(pullItems, "PULL REQUEST")
 
 	return ExitCodeOK
 }
@@ -62,7 +85,7 @@ func (app App) Run() int {
 	if app.PrintList {
 		return app.printMilestones()
 	}
-	return app.printIssues()
+	return app.printMilestoneIssues()
 }
 
 func NewApp(config Config, printList bool, repo string, milestone string) (App, error) {
