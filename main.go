@@ -13,8 +13,8 @@ const (
 )
 
 var (
-	Version  string
-	Revision string
+	version  string
+	revision string
 )
 
 func usage() {
@@ -34,23 +34,24 @@ var app App
 func init() {
 	var configPath string
 	var milestone string
-	var repo string
-	var list, version bool
+	var owner, repo string
+	var list, ver bool
 
 	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/ghmilestone/config.json)")
+	flag.StringVar(&owner, "o", "", "owner (e.g. github)")
+	flag.StringVar(&repo, "r", "", "repo (e.g. hub)")
 	flag.StringVar(&milestone, "m", "", "milestone number")
-	flag.StringVar(&repo, "r", "", "repo")
-	flag.BoolVar(&version, "v", false, "Print version.")
 	flag.BoolVar(&list, "list", false, "Print milestone list.")
+	flag.BoolVar(&ver, "v", false, "Print version.")
 	flag.Parse()
 
-	if version {
-		fmt.Fprintln(os.Stdout, "Version:", Version)
-		fmt.Fprintln(os.Stdout, "Revision:", Revision)
+	if ver {
+		fmt.Fprintln(os.Stdout, "Version:", version)
+		fmt.Fprintln(os.Stdout, "Revision:", revision)
 		os.Exit(ExitCodeOK)
 	}
 
-	if len(repo) == 0 {
+	if len(owner) == 0 || len(repo) == 0 {
 		usage()
 		os.Exit(ExitCodeOK)
 	}
@@ -67,7 +68,7 @@ func init() {
 	}
 
 	// Prepare app
-	app, err = NewApp(config, list, repo, milestone)
+	app, err = NewApp(config, list, owner, repo, milestone)
 	if err != nil {
 		os.Exit(ExitCodeError)
 	}

@@ -30,11 +30,11 @@ type Issue struct {
 	} `json:"pull_request"`
 }
 
-func (gh GitHubAPI) GetMilestoneIssues(repo string, milestone string) ([]Issue, error) {
+func (gh GitHubAPI) GetMilestoneIssues(milestone string) ([]Issue, error) {
 	var issues []Issue
 
 	// Prepare HTTP Request
-	url := gh.BaseURL() + "/" + repo + "/issues" + "?access_token=" + gh.AccessToken + "&milestone=" + milestone + "&state=all&sort=created-asc"
+	url := gh.BaseURL() + "/issues" + "?access_token=" + gh.AccessToken + "&milestone=" + milestone + "&state=all&sort=created-asc"
 
 	req, err := http.NewRequest("GET", url, nil)
 

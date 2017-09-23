@@ -16,11 +16,11 @@ type Milestone struct {
 	HTMLURL string `json:"html_url"`
 }
 
-func (gh GitHubAPI) GetMilestones(repo string) ([]Milestone, error) {
+func (gh GitHubAPI) GetMilestones() ([]Milestone, error) {
 	var milestones []Milestone
 
 	// Prepare HTTP Request
-	url := gh.BaseURL() + "/" + repo + "/milestones" + "?access_token=" + gh.AccessToken + "&state=open"
+	url := gh.BaseURL() + "/milestones" + "?access_token=" + gh.AccessToken + "&state=open"
 
 	req, _ := http.NewRequest("GET", url, nil)
 	parseFormErr := req.ParseForm()
@@ -39,11 +39,6 @@ func (gh GitHubAPI) GetMilestones(repo string) ([]Milestone, error) {
 
 	// Read Response Body
 	resBody, _ := ioutil.ReadAll(res.Body)
-
-	// Display Results
-	// fmt.Println("response Status : ", res.Status)
-	// fmt.Println("response Headers : ", res.Header)
-	// fmt.Println("response Body : ", string(resBody))
 
 	// Decode JSON
 	if err := json.Unmarshal(resBody, &milestones); err != nil {

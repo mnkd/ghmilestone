@@ -17,17 +17,12 @@ var (
 type Config struct {
 	GitHub struct {
 		AccessToken string `json:"access_token"`
-		Owner       string `json:"owner"`
 	} `json:"github"`
 }
 
 func (config *Config) validate() error {
 	if len(config.GitHub.AccessToken) == 0 {
 		fmt.Fprintln(os.Stderr, "Invalid config.json. You should set a github access_token.")
-		return ErrInvalidJson
-	}
-	if len(config.GitHub.Owner) == 0 {
-		fmt.Fprintln(os.Stderr, "Invalid config.json. You should set a github owner.")
 		return ErrInvalidJson
 	}
 	return nil

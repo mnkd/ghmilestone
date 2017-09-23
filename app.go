@@ -8,14 +8,13 @@ import (
 type App struct {
 	Config    Config
 	PrintList bool
-	Repo      string
 	Milestone string
 	GitHubAPI GitHubAPI
 }
 
 func (app App) printMilestones() int {
 	var milestones []Milestone
-	milestones, err := app.GitHubAPI.GetMilestones(app.Repo)
+	milestones, err := app.GitHubAPI.GetMilestones()
 	if err != nil {
 		return ExitCodeError
 	}
@@ -42,12 +41,12 @@ func (app App) printIssues(issues []Issue, title string) {
 	openIssues := filterIssues(issues, "open")
 	closedIssues := filterIssues(issues, "closed")
 
-	fmt.Fprintf(os.Stdout, "## OPEN (%v)\n", len(openIssues))
+	fmt.Fprintf(os.Stdout, "\n## OPEN (%v)\n", len(openIssues))
 	for _, issue := range openIssues {
 		fmt.Fprintf(os.Stdout, "* [%v - %v](%v) (%v)\n", issue.Number, issue.Title, issue.HTMLURL, issue.Assignee.Login)
 	}
 
-	fmt.Fprintf(os.Stdout, "## CLOSED (%v)\n", len(closedIssues))
+	fmt.Fprintf(os.Stdout, "\n## CLOSED (%v)\n", len(closedIssues))
 	for _, issue := range closedIssues {
 		fmt.Fprintf(os.Stdout, "* [%v - %v](%v) (%v)\n", issue.Number, issue.Title, issue.HTMLURL, issue.Assignee.Login)
 	}
@@ -56,7 +55,7 @@ func (app App) printIssues(issues []Issue, title string) {
 func (app App) printMilestoneIssues() int {
 	// Get milestone issues from GitHub
 	var issues []Issue
-	issues, err := app.GitHubAPI.GetMilestoneIssues(app.Repo, app.Milestone)
+	issues, err := app.GitHubAPI.GetMilestoneIssues(app.Milestone)
 	if err != nil {
 		return ExitCodeError
 	}
@@ -88,13 +87,12 @@ func (app App) Run() int {
 	return app.printMilestoneIssues()
 }
 
-func NewApp(config Config, printList bool, repo string, milestone string) (App, error) {
+func NewApp(config Config, printList bool, owner string, repo string, milestone string) (App, error) {
 	var app = App{}
 	var err error
 	app.Config = config
 	app.PrintList = printList
-	app.Repo = repo
 	app.Milestone = milestone
-	app.GitHubAPI = NewGitHubAPI(config)
+	app.GitHubAPI = NewGitHubAPI(config, owner, repo)
 	return app, err
 }
