@@ -1,2 +1,2 @@
-# gh-milestone
-Show issues of GitHub Milestone.
+# ghmilestone
+A command for outputting GitHub milestones and related issues.
