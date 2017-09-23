@@ -16,11 +16,11 @@ type Milestone struct {
 	HTMLURL string `json:"html_url"`
 }
 
-func (gh GitHubAPI) GetMilestones() ([]Milestone, error) {
+func (gh GitHubAPI) GetMilestones(state string) ([]Milestone, error) {
 	var milestones []Milestone
 
 	// Prepare HTTP Request
-	url := gh.BaseURL() + "/milestones" + "?access_token=" + gh.AccessToken + "&state=open"
+	url := gh.BaseURL() + "/milestones" + "?access_token=" + gh.AccessToken + "&state=" + state
 
 	req, _ := http.NewRequest("GET", url, nil)
 	parseFormErr := req.ParseForm()

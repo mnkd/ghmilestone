@@ -9,12 +9,13 @@ type App struct {
 	Config    Config
 	PrintList bool
 	Milestone string
+	State     string // open, closed, all
 	GitHubAPI GitHubAPI
 }
 
 func (app App) printMilestones() int {
 	var milestones []Milestone
-	milestones, err := app.GitHubAPI.GetMilestones()
+	milestones, err := app.GitHubAPI.GetMilestones(app.State)
 	if err != nil {
 		return ExitCodeError
 	}
@@ -87,12 +88,13 @@ func (app App) Run() int {
 	return app.printMilestoneIssues()
 }
 
-func NewApp(config Config, printList bool, owner string, repo string, milestone string) (App, error) {
+func NewApp(config Config, printList bool, owner string, repo string, milestone string, state string) (App, error) {
 	var app = App{}
 	var err error
 	app.Config = config
 	app.PrintList = printList
 	app.Milestone = milestone
+	app.State = state
 	app.GitHubAPI = NewGitHubAPI(config, owner, repo)
 	return app, err
 }
