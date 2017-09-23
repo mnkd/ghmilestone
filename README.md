@@ -11,7 +11,7 @@ Usage:
 
 ## Configuration
 
-`$HOME/.config/ghmilestone/config.json
+`$HOME/.config/ghmilestone/config.json`
 
 ```json
 {
@@ -22,7 +22,7 @@ Usage:
 }
 ```
 
-# Examples
+# Example
 
 ```
 $ ghmilestone -r linguist --list
