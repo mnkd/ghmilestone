@@ -19,12 +19,12 @@ var (
 
 func usage() {
 	str := `Usage:
- ghmilestone [--list] [-r repo]       : Print milestones for a repository
- ghmilestone [-r repo] [-m milestone] : Print issues for a milestone.
+ ghmilestone [-o owner] [-r repo] [--list]       : Print milestones for a repository
+ ghmilestone [-or owner] [-r repo] [-m milestone] : Print issues for a milestone.
 
 Examples:
- $ ghmilestone --list -r awesome-app
- $ ghmilestone -r awesome-app -m 15
+ $ ghmilestone -o owner -r awesome-app --list
+ $ ghmilestone -o owner -r awesome-app -m 15
 `
 	fmt.Fprintln(os.Stderr, str)
 }
