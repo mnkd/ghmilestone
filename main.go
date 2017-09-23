@@ -19,12 +19,12 @@ var (
 
 func usage() {
 	str := `Usage:
- gh-milestone [--list] [-r repo]       : Print milestones for a repository
- gh-milestone [-r repo] [-m milestone] : Print issues for a milestone.
+ ghmilestone [--list] [-r repo]       : Print milestones for a repository
+ ghmilestone [-r repo] [-m milestone] : Print issues for a milestone.
 
 Examples:
- $ gh-milestone --list -r awesome-app
- $ gh-milestone -r awesome-app -m 15
+ $ ghmilestone --list -r awesome-app
+ $ ghmilestone -r awesome-app -m 15
 `
 	fmt.Fprintln(os.Stderr, str)
 }
@@ -37,7 +37,7 @@ func init() {
 	var repo string
 	var list, version bool
 
-	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/gh-milestone/config.json)")
+	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/ghmilestone/config.json)")
 	flag.StringVar(&milestone, "m", "", "milestone number")
 	flag.StringVar(&repo, "r", "", "repo")
 	flag.BoolVar(&version, "v", false, "Print version.")

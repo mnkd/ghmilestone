@@ -42,7 +42,7 @@ func NewConfig(path string) (Config, error) {
 	}
 
 	if len(path) == 0 {
-		path = filepath.Join(usr.HomeDir, "/.config/gh-milestone/config.json")
+		path = filepath.Join(usr.HomeDir, "/.config/ghmilestone/config.json")
 	} else {
 		p, absErr := filepath.Abs(path)
 		if absErr != nil {
