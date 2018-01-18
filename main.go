@@ -13,8 +13,8 @@ const (
 )
 
 var (
-	version  string
-	revision string
+	Version  string
+	Revision string
 )
 
 func usage() {
@@ -59,8 +59,8 @@ func init() {
 	flag.Parse()
 
 	if ver {
-		fmt.Fprintln(os.Stdout, "Version:", version)
-		fmt.Fprintln(os.Stdout, "Revision:", revision)
+		fmt.Fprintln(os.Stdout, "Version:", Version)
+		fmt.Fprintln(os.Stdout, "Revision:", Revision)
 		os.Exit(ExitCodeOK)
 	}
 

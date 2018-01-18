@@ -2,7 +2,7 @@ NAME     := ghmilestone
 VERSION  := 0.3.0
 REVISION := $(shell git rev-parse --short HEAD)
 SRCS     := $(shell find . -type f -name '*.go')
-LDFLAGS  := -ldflags="-X \"main.version=$(VERSION)\" -X \"main.revision=$(REVISION)\""
+LDFLAGS  := -ldflags="-X \"main.Version=$(VERSION)\" -X \"main.Revision=$(REVISION)\""
 
 bin/$(NAME): $(SRCS) format
 	go build $(LDFLAGS) -o bin/$(NAME)
