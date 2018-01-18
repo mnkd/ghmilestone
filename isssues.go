@@ -34,7 +34,7 @@ func (gh GitHubAPI) GetMilestoneIssues(milestone string) ([]Issue, error) {
 	var issues []Issue
 
 	// Prepare HTTP Request
-	url := gh.BaseURL() + "/issues" + "?access_token=" + gh.AccessToken + "&milestone=" + milestone + "&state=all&sort=created-asc"
+	url := gh.BaseURL() + "/issues" + "?access_token=" + gh.AccessToken + "&milestone=" + milestone + "&state=all&sort=created-asc&per_page=100"
 
 	req, err := http.NewRequest("GET", url, nil)
 
