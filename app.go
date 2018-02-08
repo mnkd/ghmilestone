@@ -3,14 +3,24 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 type App struct {
 	Config    Config
-	PrintList bool
-	Milestone string
-	State     string // open, closed, all
 	GitHubAPI GitHubAPI
+	Indent    bool
+	Milestone string
+	PrintList bool
+	State     string // open, closed, all
+}
+
+func (app App) headerPrefix(h int) string {
+	var repeat = h
+	if app.Indent {
+		repeat++
+	}
+	return strings.Repeat("#", repeat)
 }
 
 func (app App) printMilestones() int {
@@ -38,16 +48,19 @@ func filterIssues(issues []Issue, state string) []Issue {
 }
 
 func (app App) printIssues(issues []Issue, title string) {
-	fmt.Fprintf(os.Stdout, "# %v\n", title)
+	h1prefix := app.headerPrefix(1)
+	h2prefix := app.headerPrefix(2)
+
+	fmt.Fprintf(os.Stdout, "%v %v\n", h1prefix, title)
 	openIssues := filterIssues(issues, "open")
 	closedIssues := filterIssues(issues, "closed")
 
-	fmt.Fprintf(os.Stdout, "\n## OPEN (%v)\n", len(openIssues))
+	fmt.Fprintf(os.Stdout, "\n%v OPEN (%v)\n", h2prefix, len(openIssues))
 	for _, issue := range openIssues {
 		fmt.Fprintf(os.Stdout, "* [%v - %v](%v) (%v)\n", issue.Number, issue.Title, issue.HTMLURL, issue.Assignee.Login)
 	}
 
-	fmt.Fprintf(os.Stdout, "\n## CLOSED (%v)\n", len(closedIssues))
+	fmt.Fprintf(os.Stdout, "\n%v CLOSED (%v)\n", h2prefix, len(closedIssues))
 	for _, issue := range closedIssues {
 		fmt.Fprintf(os.Stdout, "* [%v - %v](%v) (%v)\n", issue.Number, issue.Title, issue.HTMLURL, issue.Assignee.Login)
 	}
@@ -88,13 +101,13 @@ func (app App) Run() int {
 	return app.printMilestoneIssues()
 }
 
-func NewApp(config Config, printList bool, owner string, repo string, milestone string, state string) (App, error) {
+func NewApp(config Config, printList bool, owner string, repo string, milestone string, state string, indent bool) (App, error) {
 	var app = App{}
-	var err error
 	app.Config = config
-	app.PrintList = printList
-	app.Milestone = milestone
-	app.State = state
 	app.GitHubAPI = NewGitHubAPI(config, owner, repo)
-	return app, err
+	app.Indent = indent
+	app.Milestone = milestone
+	app.PrintList = printList
+	app.State = state
+	return app, nil
 }

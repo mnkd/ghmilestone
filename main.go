@@ -37,6 +37,9 @@ Examples:
 
  Print owner/awesome-app/milesstone/15
  $ ghmilestone -o owner -r awesome-app -m 15
+
+ Print owner/awesome-app/milesstone/15, append a # to section headers.
+ $ ghmilestone -o owner -r awesome-app -m 15 -i
 `
 	fmt.Fprintln(os.Stderr, str)
 }
@@ -47,7 +50,7 @@ func init() {
 	var configPath string
 	var milestone string
 	var owner, repo, state string
-	var list, ver bool
+	var list, ver, indent bool
 
 	flag.StringVar(&configPath, "c", "", "/path/to/config.json. (default: $HOME/.config/ghmilestone/config.json)")
 	flag.StringVar(&owner, "o", "", "owner (e.g. github)")
@@ -56,6 +59,7 @@ func init() {
 	flag.BoolVar(&list, "list", false, "Print milestone list.")
 	flag.StringVar(&state, "state", "all", "(optional) milestone state: 'open' or 'closed'.")
 	flag.BoolVar(&ver, "v", false, "Print version.")
+	flag.BoolVar(&indent, "i", false, "Append a # to section header.")
 	flag.Parse()
 
 	if ver {
@@ -88,7 +92,7 @@ func init() {
 	}
 
 	// Prepare app
-	app, err = NewApp(config, list, owner, repo, milestone, state)
+	app, err = NewApp(config, list, owner, repo, milestone, state, indent)
 	if err != nil {
 		os.Exit(ExitCodeError)
 	}
