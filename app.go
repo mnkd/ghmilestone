@@ -31,7 +31,7 @@ func (app App) printMilestones() int {
 	}
 
 	for _, milestone := range milestones {
-		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", milestone.Number, milestone.Title, milestone.HTMLURL)
+		fmt.Fprintf(os.Stdout, "- [%v - %v](%v)\n", milestone.Number, milestone.Title, milestone.HTMLURL)
 	}
 
 	return ExitCodeOK
@@ -57,12 +57,12 @@ func (app App) printIssues(issues []Issue, title string) {
 
 	fmt.Fprintf(os.Stdout, "\n%v OPEN (%v)\n", h2prefix, len(openIssues))
 	for _, issue := range openIssues {
-		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
+		fmt.Fprintf(os.Stdout, "- [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
 	}
 
 	fmt.Fprintf(os.Stdout, "\n%v CLOSED (%v)\n", h2prefix, len(closedIssues))
 	for _, issue := range closedIssues {
-		fmt.Fprintf(os.Stdout, "* [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
+		fmt.Fprintf(os.Stdout, "- [%v - %v](%v)\n", issue.Number, issue.Title, issue.HTMLURL)
 	}
 }
 
